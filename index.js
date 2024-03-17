@@ -1,6 +1,15 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
-const puerto = 3000;
+const puerto = process.env.PORT;
+//sin esta linea no funcionaria cuando se suba a produccion
+const cors = require('cors');
+
+//Middleware's
+app.use(cors());
+//sin esta linea no podriamos recibir datos tipo json en los POST
+app.use(express.json());
+
 
 app.get('/', (req, res) => {
     res.send('¡Hola, Express!');

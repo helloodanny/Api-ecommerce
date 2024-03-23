@@ -1,35 +1,30 @@
 const express = require('express');
-require('dotenv').config();
 const app = express();
+require('dotenv').config();
+
 const puerto = process.env.PORT;
 //sin esta linea no funcionaria cuando se suba a produccion
 const cors = require('cors');
+const productsRoute = require('./routes/products.routes')
+const dbConnection = require('./database/config.js');
 
 //Middleware's
 app.use(cors());
+
 //sin esta linea no podriamos recibir datos tipo json en los POST
 app.use(express.json());
 
+(async () => {
 
-app.get('/', (req, res) => {
-    res.send('¡Hola, Express!');
-});
+    try {
+        await dbConnection();
+        // Carga de rutas.
+        app.use(productsRoute);
+    } catch (error) {
+        console.error('Error en la conexión a la base de datos:', error);
+    }
 
-app.get('/products', (req, res) => {
-    res.send('GET/products');
-});
-
-app.post('/products', (req, res) => {
-    res.send('POST/products');
-});
-
-app.put('/products', (req, res) => {
-    res.send('PUT/products');
-});
-
-app.delete('/products', (req, res) => {
-    res.send('DELETE/products');
-});
+})();
 
 app.listen(puerto, () => {
     console.log('Servidor escuchando en http://localhost:' + puerto);

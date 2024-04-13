@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+//Representacion de una coleccion en nuestra base de datos
 const ProductsSchema = Schema ({
     nombre: {
         type: String

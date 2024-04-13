@@ -1,5 +1,4 @@
 const { response, request } = require('express');
-
 const Product = require('../models/Product.model');
 
 const productsGet = async (req = request, res = response) => {
@@ -10,8 +9,6 @@ const productsGet = async (req = request, res = response) => {
 
     if (id) {
 
-
-
         products = await Product.findById(id);
     } else {
         products = await Product.find();
@@ -20,7 +17,6 @@ const productsGet = async (req = request, res = response) => {
         message: 'Datos cargados correctamente',
         data: products
     });
-
 
 }
 
@@ -40,10 +36,10 @@ const productsPost = async (req = request, res = response) => {
 
 const productsPut = async (req = request, res = response) => {
     const { id } = req.query
-
     const productoEditar = req.body
 
-    const productoActualizado = await Product.findByIdAndUpdate(id, productoEditar, { new: true })
+    const productoActualizado = await Product.findByIdAndUpdate(id, productoEditar, { new: true });
+    
     res.status(200).json({
         message: 'Producto actualizado correctamente',
         code: productoActualizado
@@ -54,7 +50,7 @@ const productsPut = async (req = request, res = response) => {
 const productsDelete = async (req = request, res = response) => {
     const { id } = req.query;
     await Product.findByIdAndDelete(id);
- 
+
     res.status(200).json({
         message: 'Producto eliminado correctamente',
         code: id
